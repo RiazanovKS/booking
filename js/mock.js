@@ -80,7 +80,7 @@ const createArticle = () => ({
   },
   type: getRandomElementFromList(TYPES),
   capacity: {
-    rooms: getRandomNumberInRange({ from: 1, to: 10 }),
+    rooms: getRandomNumberInRange({ from: 1, to: 5 }),
     guests: getRandomNumberInRange({ from: 1, to: 10 })
   },
   time: {
