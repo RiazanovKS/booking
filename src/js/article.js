@@ -1,5 +1,7 @@
 import { separateThosands, declOfNum, getRandomNumberInRange } from "./lib.js";
 
+
+
 const types = {
     PALACE: 'Дворец',
     FLAT: 'Квартира',
