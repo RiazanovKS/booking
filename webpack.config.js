@@ -1,9 +1,11 @@
 const path = require('path');
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWepbackPlugin = require('copy-webpack-plugin');
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+
 
 module.exports = {
-    mode: 'development',
     entry: './src/index.js',
     output: {
         filename: 'main.js',
@@ -52,11 +54,41 @@ module.exports = {
             patterns: [
                 { from: "src/img", to: "img" },
                 { from: "src/fonts", to: "fonts" },
-              ],
+                { from: 'src/favicon.ico' }
+            ],
         }),
         new HtmlWebpackPlugin({
+            template: 'src/index.html',
             scriptLoading: 'defer',
-            template: 'src/index.html'
+            favicon: 'src/favicon.ico'
         })
     ],
+    optimization: {
+        minimizer: [
+            '...',
+            new ImageMinimizerPlugin({
+                loader: true,
+                minimizer: {
+                    implementation: ImageMinimizerPlugin.imageminMinify,
+                    options: {
+                        plugins: [
+                            "imagemin-gifsicle",
+                            "imagemin-mozjpeg",
+                            "imagemin-pngquant",
+                            "imagemin-svgo",
+                        ],
+                    },
+                },
+                generator: [
+                    {
+                        type: "asset",
+                        implementation: ImageMinimizerPlugin.imageminGenerate,
+                        options: {
+                            plugins: ["imagemin-webp"],
+                        },
+                    },
+                ],
+            }),
+        ],
+    },
 };
