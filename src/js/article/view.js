@@ -1,5 +1,4 @@
-import { separateThosands, declOfNum, getRandomNumberInRange } from "./lib.js";
-
+import { separateThosands, declOfNum, getRandomNumberInRange } from "../lib.js";
 
 
 const types = {
@@ -81,7 +80,7 @@ export const createCardElement = article => {
     imgPhoto.replaceWith(...photosImg)
 
     closeButton.addEventListener('click', () => {
-        cardElement.hidden = true;
+        cardElement.remove();
     })
 
     return cardElement;

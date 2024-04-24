@@ -2,7 +2,7 @@ import {
   getRandomSublist,
   getRandomNumberInRange,
   getRandomElementFromList
-} from "./lib.js";
+} from "../lib.js";
 
 const TYPES = [
   'palace',
@@ -89,13 +89,23 @@ const createArticle = () => ({
   },
   features: getRandomSublist(FEATURES),
   description: getRandomElementFromList(titles),
-  photos: getRandomSublist(PHOTOS)
+  photos: getRandomSublist(PHOTOS),
+  coords: {
+    left: getRandomNumberInRange({ to: 1100 }),
+    bottom: getRandomNumberInRange({ to: 230 })
+  }
 })
 
-let articles = [];
 
-for (let i = 0; i < 10; i++) {
-  articles.push(createArticle());
+
+const getArticles = async () => {
+  let articles = [];
+
+  for (let i = 0; i < 10; i++) {
+    articles.push(createArticle());
+  }
+
+  return articles;
 }
 
-export default articles;
+export { getArticles };
