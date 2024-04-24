@@ -2,7 +2,6 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWepbackPlugin = require('copy-webpack-plugin');
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 
 module.exports = {
@@ -33,20 +32,20 @@ module.exports = {
                         }
                     }],
             },
-            {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                type: 'asset/resource',
-                generator: {
-                    filename: 'img/[hash][ext]'
-                },
-            },
-            {
-                test: /\.(woff|woff2|eot|ttf|otf)$/i,
-                type: 'asset/resource',
-                generator: {
-                    filename: 'fonts/[hash][ext]'
-                },
-            },
+            // {
+            //     test: /\.(png|svg|jpg|jpeg|gif)$/i,
+            //     type: 'asset/resource',
+            //     generator: {
+            //         filename: 'img/[hash][ext]'
+            //     },
+            // },
+            // {
+            //     test: /\.(woff|woff2|eot|ttf|otf)$/i,
+            //     type: 'asset/resource',
+            //     generator: {
+            //         filename: 'fonts/[hash][ext]'
+            //     },
+            // },
         ],
     },
     plugins: [
@@ -63,32 +62,4 @@ module.exports = {
             favicon: 'src/favicon.ico'
         })
     ],
-    optimization: {
-        minimizer: [
-            '...',
-            new ImageMinimizerPlugin({
-                loader: true,
-                minimizer: {
-                    implementation: ImageMinimizerPlugin.imageminMinify,
-                    options: {
-                        plugins: [
-                            "imagemin-gifsicle",
-                            "imagemin-mozjpeg",
-                            "imagemin-pngquant",
-                            "imagemin-svgo",
-                        ],
-                    },
-                },
-                generator: [
-                    {
-                        type: "asset",
-                        implementation: ImageMinimizerPlugin.imageminGenerate,
-                        options: {
-                            plugins: ["imagemin-webp"],
-                        },
-                    },
-                ],
-            }),
-        ],
-    },
 };
