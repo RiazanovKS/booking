@@ -2,6 +2,17 @@ const shuffleList = (list) => {
     return list.sort(() => Math.random() - 0.5);
 }
 
+export const includesList = (source, target) => {
+    return target.every(elem => source.includes(elem));
+}
+
+export const removeFromList = (item, list) => {
+    const index = list.indexOf(item);
+    if (index > -1) {
+        list.splice(index, 1);
+    }
+}
+
 export const getRandomNumberInRange = ({ from = 0, to = 100 } = { from: 0, to: 100 }) => {
     const difference = to - from;
     return Math.floor(Math.random() * difference) + from;
