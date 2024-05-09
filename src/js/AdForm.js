@@ -6,8 +6,16 @@ export default class AdForm {
         this.#adFormElement = document.querySelector('.ad-form');
     }
 
-
     activate() {
-        this.#adFormElement.classList.remove('ad-form--disabled')
+        this.#toggleActive(true);
+    }
+
+    deactivate() {
+        this.#toggleActive(false);
+    }
+
+    #toggleActive(isActive) {
+        console.log({ isActive })
+        this.#adFormElement.classList.toggle('ad-form--disabled', !isActive)
     }
 }

@@ -1,36 +1,44 @@
-import { includesList, removeFromList } from "../lib.js";
+import { includesList, removeFromList } from "../js/lib.js";
 
-
-export default class MapFilter {
+export default class Filter {
     #filters;
     #features;
 
-    constructor() {
-        this.#filters = {
+    constructor({ filters, features } = {
+        filters: {
             type: 'any',
             price: 'any',
             rooms: 'any',
-            guests: 'any',
-        }
-
-        this.#features = [];
+            guests: 'any'
+        },
+        features: []
+    }) {
+        this.#filters = filters;
+        this.#features = features;
     }
 
-    #setFilter = (key, value) => {
+    getFilters() {
+        return {
+            filters: this.#filters,
+            features: this.#features
+        }
+    }
+
+    setFilter = (key, value) => {
         if (!key in this.#filters) return;
 
         this.#filters[key] = value;
     }
 
-    #addFeature(featureName) {
+    addFeature(featureName) {
         this.#features.push(featureName);
     }
 
-    #removeFeature(featureName) {
+    removeFeature(featureName) {
         removeFromList(featureName, this.#features);
     }
 
-    #filterArticles(articles) {
+    filter(articles, callabk) {
 
         const {
             type,
@@ -68,32 +76,7 @@ export default class MapFilter {
         }
     }
 
-    filter({ event, articles }) {
-        const filterMappings = {
-            'housing-type': 'type',
-            'housing-price': 'price',
-            'housing-rooms': 'rooms',
-            'housing-guests': 'guests',
-        }
 
-        const { name, value, checked, type } = event.target;
-
-        switch (type) {
-            case 'select-one':
-                const key = filterMappings[name];
-                this.#setFilter(key, value);
-                break;
-            case 'checkbox':
-                checked === true ? this.#addFeature(value) : this.#removeFeature(value);
-                break;
-            default:
-                throw new Error('Unrecognized input type handling');
-        }
-
-        const filteredArticles = this.#filterArticles(articles);
-
-        return filteredArticles;
-    }
 
 }
 

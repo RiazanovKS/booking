@@ -1,15 +1,20 @@
-let mainPinElement;
+export default class MainPin {
 
-export const init = (onStart) => {
-    mainPinElement = document.querySelector('.map__pin--main');
+    #mainPinElement;
 
-    mainPinElement.addEventListener('mousedown', onStart);
-}
+    constructor() { }
 
-export const destroy = () => {
-    if (!mainPinElement) return;
+    init(onStart) {
+        this.#mainPinElement = document.querySelector('.map__pin--main');
 
-    mainPinElement.removeEventListener('mousedown', onStart);
+        this.#mainPinElement.addEventListener('mousedown', onStart);
+    }
 
-    mainPinElement = undefined;
+    destroy() {
+        if (!this.#mainPinElement) return;
+
+        this.#mainPinElement.removeEventListener('mousedown', onStart);
+
+        this.#mainPinElement = undefined;
+    }
 }

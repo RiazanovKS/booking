@@ -1,51 +1,26 @@
-import { createCardElement, createPinElement } from "../article/view.js";
+import { createCardElement, createPinElement } from "../article/lib.js";
 
 export default class Map {
 
     #mapElement;
     #mapPinsElement;
 
-    constructor() {
-        this.#mapElement = document.querySelector('.map');
-        this.#mapPinsElement = document.querySelector('.map__pins');
-    }
-
-
-    init() {
-        return {
-            activate: this.activate
-        }
+    constructor({ mapElement, mapPinsElement }) {
+        this.#mapElement = mapElement;
+        this.#mapPinsElement = mapPinsElement;
     }
 
     activate() {
-        this.#mapPinsElement.classList.remove('visually-hidden');
-        this.#mapElement.classList.remove('map--faded');
+        this.#toggleActive(true);
     }
 
-    #getCardElementCoordsDueToPinElement(pinElementCoords) {
-        const { pinLeft, pinBottom } = pinElementCoords;
+    deactivate() {
+        this.#toggleActive(false);
+    }
 
-        const mapWidth = this.#mapPinsElement.clientWidth;
-
-        let cardLeft = pinLeft - 115 + 25;
-        let cardBottom = pinBottom;
-
-        if (cardLeft < 0) {
-            cardLeft = 5;
-        }
-
-        if (cardLeft > (mapWidth - 230)) {
-            cardLeft = mapWidth - 235;
-        }
-
-        if (cardBottom > 325) {
-            cardBottom = 325;
-        }
-
-        return {
-            cardLeft,
-            cardBottom
-        }
+    #toggleActive(isActive) {
+        this.#mapPinsElement.classList.toggle('visually-hidden', !isActive);
+        this.#mapElement.classList.toggle('map--faded', !isActive);
     }
 
     drawArticleCard(article) {
@@ -61,7 +36,9 @@ export default class Map {
         this.#mapPinsElement.append(cardElement);
     }
 
-    drawArticlePins(articles) {
+    drawPins(articles, onSelect) {
+        this.removeAllPins();
+
         const mapPins = articles.map(article => {
             const pinElement = createPinElement(article);
 
@@ -69,7 +46,7 @@ export default class Map {
             pinElement.style.left = article.coords.left + 'px';
             pinElement.style.bottom = article.coords.bottom + 'px';
 
-            pinElement.addEventListener('click', () => this.drawArticleCard(article))
+            pinElement.addEventListener('click', () => onSelect())
 
             return pinElement;
         });
