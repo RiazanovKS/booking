@@ -18,3 +18,4 @@ export default class MainPin {
         this.#mainPinElement = undefined;
     }
 }
+
